@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //商品购物车
+    let cartItems = [
+        {
+            barcode:"code00001",
+            name:"cole",
+            unit:"瓶",
+            price:5.00
+        },
+        {
+            barcode:"code00001",
+            name:"cole",
+            unit:"瓶",
+            price:5.00
+        },
+        {
+            barcode:"code00002",
+            name:"sprite",
+            unit:"瓶",
+            price:4.00
+        },
+        {
+            barcode:"code00003",
+            name:"fenta",
+            unit:"瓶",
+            price:3.00
+        }
+    ];
+    //统计数量
+    function countSum(cartItems){
+        let sumList = [];
+
+        for (let i=0;i<cartItems.length;i++){
+            let existList=sumList.find(function(item){
+                return item.barcode === cartItems[i].barcode;
+            });
+            if (existList)
+            {
+                existList.count ++;
+            }else {
+                sumList.push(Object.assign({},cartItems[i],{count:1}));
+            }
+        }
+        return sumList;
+    }
+
+    //小计
+    function countSubtotal(sumList) {
+        let subtotalList = [];
+
+        for(let i=0;i<sumList.length;i++){
+            let sub= parseFloat(sumList[i].price) * sumList[i].count;
+            subtotalList.push(Object.assign({},sumList[i],{subtotal:sub}));
+        }
+        return subtotalList;
+    }
+    //总计
+    function countTotal(subtotalList){
+        let total = 0;
+        for(let i=0; i<subtotalList.length; i++){
+            total = total + subtotalList[i].subtotal;
+        }
+        return total;
+    }
+    //输出
+    function print(subtotalList,total) {
+        for(let i=0;i<subtotalList.length;i++){
+            console.log(subtotalList[i]);
+        }
+        console.log("total" + ":" + total);
+    }
+
+    function printReceipt(cartItems){
+        let sumList = countSum(cartItems);
+        let subtotalList = countSubtotal(sumList);
+        let total = countTotal(subtotalList);
+        print(subtotalList,total);
+    }
+
+    console.log(printReceipt(cartItems));
+
+</script>
+</body>
+</html>
